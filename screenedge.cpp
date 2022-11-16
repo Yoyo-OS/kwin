@@ -700,7 +700,7 @@ ScreenEdges::ScreenEdges(QObject *parent)
     : QObject(parent)
     , m_desktopSwitching(false)
     , m_desktopSwitchingMovingClients(false)
-    , m_deepinDisableScreenEdges(true)
+    , m_yoyoDisableScreenEdges(true)
     , m_timeThreshold(0)
     , m_reactivateThreshold(0)
     , m_virtualDesktopLayout(0)
@@ -755,7 +755,7 @@ void ScreenEdges::reconfigure()
     }
     // TODO: migrate settings to a group ScreenEdges
     KConfigGroup windowsConfig = m_config->group("Windows");
-    m_deepinDisableScreenEdges = windowsConfig.readEntry("DeepinDisableScreenEdges", true);
+    m_yoyoDisableScreenEdges = windowsConfig.readEntry("YoyoDisableScreenEdges", true);
     setTimeThreshold(windowsConfig.readEntry("ElectricBorderDelay", 150));
     setReActivationThreshold(qMax(timeThreshold() + 50, windowsConfig.readEntry("ElectricBorderCooldown", 350)));
     int desktopSwitching = windowsConfig.readEntry("ElectricBorders", static_cast<int>(ElectricDisabled));
@@ -997,7 +997,7 @@ void ScreenEdges::recreateEdges()
         const QRegion screen = QRegion(screens()->geometry(i)).subtracted(processedRegion);
         processedRegion += screen;
         Q_FOREACH (const QRect &screenPart, screen.rects()) {
-            if (!m_deepinDisableScreenEdges) {
+            if (!m_yoyoDisableScreenEdges) {
                 if (isLeftScreen(screenPart, fullArea)) {
                     // left most screen
                     createVerticalEdge(ElectricLeft, screenPart, fullArea);
@@ -1102,7 +1102,7 @@ Edge *ScreenEdges::createEdge(ElectricBorder border, int x, int y, int width, in
     Edge *edge = kwinApp()->platform()->createScreenEdge(this);
 #endif
 
-    edge->setDisableScreenEdges(m_deepinDisableScreenEdges);
+    edge->setDisableScreenEdges(m_yoyoDisableScreenEdges);
     edge->setBorder(border);
     edge->setGeometry(QRect(x, y, width, height));
     if (createAction) {

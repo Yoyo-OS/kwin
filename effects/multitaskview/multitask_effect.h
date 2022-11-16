@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ~ 2022 Deepin Technology Co., Ltd.
+ * Copyright (C) 2022 ~ 2022 Yoyo Technology Co., Ltd.
  *
  * Author:     zjq <zhaojunqing@uniontech.com>
  *

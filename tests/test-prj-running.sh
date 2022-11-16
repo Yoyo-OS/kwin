@@ -12,7 +12,7 @@ cd build/
 # Sanitize for asan.log
 ######################
 export DISPLAY=:0.0
-export XDG_CURRENT_DESKTOP=Deepin
+export XDG_CURRENT_DESKTOP=Yoyo
 export QT_IM_MODULE=fcitx
 
 cd ../autotests

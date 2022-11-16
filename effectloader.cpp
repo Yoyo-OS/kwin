@@ -406,7 +406,7 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
     }
     const QString name = info.pluginId();
     // 窗口边框特效-圆角
-    if (name == "com.deepin.scissor") {
+    if (name == "com.yoyo.scissor") {
         KConfig config("kwinrc", KConfig::CascadeConfig);
         KConfigGroup group_scissor(&config, "Compositing");
         if (group_scissor.hasKey("window_border_effect")) {
@@ -474,7 +474,7 @@ void PluginEffectLoader::queryAndLoadAll()
             const auto effects = watcher->result();
             for (const auto &effect : effects) {
                 QString name = effect.pluginId();
-                if (waylandServer() && (name == "com.deepin.multitasking")) {
+                if (waylandServer() && (name == "com.yoyo.multitasking")) {
                     continue;
                 }
                 const LoadEffectFlags flags = readConfig(name, effect.isEnabledByDefault());

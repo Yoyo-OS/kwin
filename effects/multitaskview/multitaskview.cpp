@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ~ 2022 Deepin Technology Co., Ltd.
+ * Copyright (C) 2022 ~ 2022 Yoyo Technology Co., Ltd.
  *
  * Author:     zhangyu <zhangyud@uniontech.com>
  *
@@ -40,16 +40,16 @@
 #include "kwineffectsex.h"
 #include "report.h"
 
-Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
-Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dde.appearance"))
-//Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock_primary, ("com.deepin.dde.dock.mainwindow"))
+Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.yoyo.dde.dock"))
+Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.yoyo.dde.appearance"))
+//Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock_primary, ("com.yoyo.dde.dock.mainwindow"))
 #define GsettingsDockPosition   "position"
 //#define GsettingsDockBottom     "bottom"
 //#define GsettingsDockPrimary    "only-show-primary"
 #define GsettingsDockHeight     "window-size-efficient"
 //#define GsettingsDockShow       "hide-mode"
 #define GsettingsBackgroundUri  "backgroundUris"
-#define DeepinWMConfigName      "deepinwmrc"
+#define YoyoWMConfigName      "yoyowmrc"
 
 #define BRIGHTNESS  0.4
 #define SCALE_F     1.0
@@ -65,17 +65,17 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define SPACING_H_SCALE     (float)(20.0 / 1080.0)
 #define SPACING_W_SCALE     (float)(20.0 / 1920.0)
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_SERVICE  "com.yoyo.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ      "/com/yoyo/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF     "com.yoyo.daemon.Appearance"
 
-#define DBUS_DEEPIN_WM_SERVICE   "com.deepin.wm"
-#define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
-#define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
+#define DBUS_YOYO_WM_SERVICE   "com.yoyo.wm"
+#define DBUS_YOYO_WM_OBJ       "/com/yoyo/wm"
+#define DBUS_YOYO_WM_INTF      "com.yoyo.wm"
 
-#define DBUS_DAEMON_DISPLAY_SERVICE "com.deepin.daemon.Display"
-#define DBUS_DAEMON_DISPLAY_OBJ     "/com/deepin/daemon/Display"
-#define DBUS_DAEMON_DISPLAY_INIF    "com.deepin.daemon.Display"
+#define DBUS_DAEMON_DISPLAY_SERVICE "com.yoyo.daemon.Display"
+#define DBUS_DAEMON_DISPLAY_OBJ     "/com/yoyo/daemon/Display"
+#define DBUS_DAEMON_DISPLAY_INIF    "com.yoyo.daemon.Display"
 
 #define MULTITASK_CLOSE_SVG      ":/resources/themes/multiview_delete.svg"
 #define MULTITASK_TOP_SVG        ":/resources/themes/multiview_top.svg"
@@ -88,8 +88,8 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define SCISSOR_HOFFD 400
 
 const char notification_tips[] = "dde-osd dde-osd";
-const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
-const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
+const char screen_recorder[] = "yoyo-screen-recorder yoyo-screen-recorder";
+const char fallback_background_name[] = "file:///usr/share/wallpapers/yoyo/desktop.jpg";
 const char defaultSecondBackgroundUri[] = "francesco-ungaro-1fzbUyzsHV8-unsplash";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
@@ -131,7 +131,7 @@ DbusThread::DbusThread()
 
 void DbusThread::run()
 {
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_YOYO_WM_SERVICE, DBUS_YOYO_WM_OBJ, DBUS_YOYO_WM_INTF);
     wm.asyncCall("SetMultiTaskingStatus", mt_active);
 }
 
@@ -153,15 +153,15 @@ MultiViewBackgroundManager *MultiViewBackgroundManager::instance()
 MultiViewBackgroundManager::MultiViewBackgroundManager()
     : QObject()
     , m_bgmutex(QMutex::Recursive)
-    , m_deepinWMConfig(new KConfig(DeepinWMConfigName, KConfig::CascadeConfig))
+    , m_yoyoWMConfig(new KConfig(YoyoWMConfigName, KConfig::CascadeConfig))
 {
 }
 
 MultiViewBackgroundManager::~MultiViewBackgroundManager()
 {
-    if (m_deepinWMConfig) {
-        delete m_deepinWMConfig;
-        m_deepinWMConfig = nullptr;
+    if (m_yoyoWMConfig) {
+        delete m_yoyoWMConfig;
+        m_yoyoWMConfig = nullptr;
     }
 }
 
@@ -216,8 +216,8 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-    m_deepinWMConfig->checkUpdate(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName), DeepinWMConfigName);
-    QString backgroundUri = m_deepinWMConfig->group("WorkspaceBackground").readEntry(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
+    m_yoyoWMConfig->checkUpdate(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName), YoyoWMConfigName);
+    QString backgroundUri = m_yoyoWMConfig->group("WorkspaceBackground").readEntry(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
     if (backgroundUri.isEmpty()) {
         backgroundUri = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList().value(st.desktop - 1);
         if (st.desktop == 1) {
@@ -276,8 +276,8 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
 
 void MultiViewBackgroundManager::setWorkspaceBgPath(int desktop, QString screenName, QString bg)
 {
-    m_deepinWMConfig->group("WorkspaceBackground").writeEntry(QString("%1%2%3").arg(desktop).arg("@" ,screenName), bg);
-    m_deepinWMConfig->sync();
+    m_yoyoWMConfig->group("WorkspaceBackground").writeEntry(QString("%1%2%3").arg(desktop).arg("@" ,screenName), bg);
+    m_yoyoWMConfig->sync();
 
     QStringList allWallpaper = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList();
 
@@ -297,7 +297,7 @@ void MultiViewBackgroundManager::cacheWorkspaceBg(BgInfo_st &st)
 {
     QMutexLocker locker(&m_bgmutex);
     QString backgroundUri;
-    backgroundUri = m_deepinWMConfig->group("WorkspaceBackground").readEntry( QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
+    backgroundUri = m_yoyoWMConfig->group("WorkspaceBackground").readEntry( QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
     QString strBackgroundPathkey = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
     if (!backgroundUri.isEmpty()) {
@@ -399,7 +399,7 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_YOYO_WM_SERVICE, DBUS_YOYO_WM_OBJ, DBUS_YOYO_WM_INTF);
     QString file;
     if (st.screen == m_previewScreen && !m_previewFile.isEmpty()) {
         m_previewScreen = -1;
@@ -725,9 +725,9 @@ MultitaskViewEffect::MultitaskViewEffect()
     } else {
         qDebug()<<"reply.error: "<<reply.error();
     }
-    QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
+    QDBusConnection::sessionBus().connect("com.yoyo.ScreenRecorder.time", "/com/yoyo/ScreenRecorder/time", "com.yoyo.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
     // 监听控制中心字体变化
-    QDBusConnection::sessionBus().connect("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Changed", this, SLOT(fontChanged(QString, QString)));
+    QDBusConnection::sessionBus().connect("com.yoyo.daemon.Appearance", "/com/yoyo/daemon/Appearance", "com.yoyo.daemon.Appearance", "Changed", this, SLOT(fontChanged(QString, QString)));
 
     m_addingDesktopTimer->setInterval(200);
     m_addingDesktopTimer->setSingleShot(true);
@@ -1645,7 +1645,7 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         m_dockRect = w->geometry();
         m_dock = w;
         onDockChange("");
-    } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
+    } else if (!QX11Info::isPlatformX11() && w->caption() == "org.yoyo.dde.lock") {
         setActive(false);
     } else if (QX11Info::isPlatformX11()) {
         if (w->windowClass() != screen_recorder && w->windowClass() != notification_tips) {
@@ -1694,7 +1694,7 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
             }
             effects->stopMouseInterception(this);
             m_isScreenRecorder = true;
-        } else if (w->windowClass() != notification_tips && w->caption() != "deepin-splitoutline") {
+        } else if (w->windowClass() != notification_tips && w->caption() != "yoyo-splitoutline") {
             setActive(false);
         }
     }
@@ -3456,7 +3456,7 @@ void MultitaskViewEffect::switchDesktop()
 void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 {
     KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerDeleteWorkspace);
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_YOYO_WM_SERVICE, DBUS_YOYO_WM_OBJ, DBUS_YOYO_WM_INTF);
 
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.size(); i++) {
@@ -3507,7 +3507,7 @@ void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 
 void MultitaskViewEffect::desktopAboutToRemoved(int d)
 {
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_YOYO_WM_SERVICE, DBUS_YOYO_WM_OBJ, DBUS_YOYO_WM_INTF);
 
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.count(); i++) {

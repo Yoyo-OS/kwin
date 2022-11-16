@@ -2014,14 +2014,14 @@ void Client::updateColorScheme()
 
 Xcb::Property Client::fetchWindowForhibitMove() const
 {
-    return Xcb::Property(false, m_client, atoms->deepin_forhibit_move,
-                         atoms->deepin_forhibit_move, 0, 1);
+    return Xcb::Property(false, m_client, atoms->yoyo_forhibit_move,
+                         atoms->yoyo_forhibit_move, 0, 1);
 }
 
 void Client::updateWindowForhibitMove()
 {
     Xcb::Property property = fetchWindowForhibitMove();
-    setWindowForhibitMove(property.toBool(32, atoms->deepin_forhibit_move));
+    setWindowForhibitMove(property.toBool(32, atoms->yoyo_forhibit_move));
 }
 
 bool Client::isClient() const

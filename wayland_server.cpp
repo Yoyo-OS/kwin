@@ -429,7 +429,7 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_strut = m_display->createStrut(m_display);
     m_strut->create();
     connect(m_strut, &StrutInterface::setStrut,
-        [this] (SurfaceInterface *surface,struct deepinKwinStrut& strutArea) {
+        [this] (SurfaceInterface *surface,struct yoyoKwinStrut& strutArea) {
             if (ShellClient *client = findClient(surface)) {
                 client->setStrut(strutArea);
                 workspace()->updateClientArea();

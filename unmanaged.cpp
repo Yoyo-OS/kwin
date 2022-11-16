@@ -153,8 +153,8 @@ NET::WindowType Unmanaged::windowType(bool direct, int supportedTypes) const
 
 bool Unmanaged::fetchWindowForLockScreen()
 {
-    auto cookie = xcb_get_property(connection(),0,this->window(),atoms->deepin_lock_screen,
-                         atoms->deepin_lock_screen,0,0);
+    auto cookie = xcb_get_property(connection(),0,this->window(),atoms->yoyo_lock_screen,
+                         atoms->yoyo_lock_screen,0,0);
     xcb_get_property_reply_t *reply;
     xcb_generic_error_t *error;
     if ((reply = xcb_get_property_reply(connection(), cookie, &error))) {

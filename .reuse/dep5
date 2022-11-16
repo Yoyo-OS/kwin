@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: deepin-kwin
+Upstream-Name: yoyo-kwin
 Upstream-Contact:  <>
-Source: https://github.com/linuxdeepin/deepin-kwin
+Source: https://github.com/linuxdeepin/yoyo-kwin
 
 # Sample paragraph, commented out:
 #

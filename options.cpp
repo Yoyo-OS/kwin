@@ -146,7 +146,7 @@ Options::~Options()
 
 void Options::setFocusPolicy(FocusPolicy focusPolicy)
 {
-    qDebug()<<"NOTE: focus policy can't be configured in deepin-kwin.";
+    qDebug()<<"NOTE: focus policy can't be configured in yoyo-kwin.";
     if (m_focusPolicy == focusPolicy) {
         return;
     }

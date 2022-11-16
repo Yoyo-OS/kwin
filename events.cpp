@@ -665,7 +665,7 @@ void Client::clientMessageEvent(xcb_client_message_event_t *e)
         pos.setY(e->data.data32[2]);
 
         workspace()->showWindowMenu(QRect(pos, pos), this);
-    } else if (e->type == atoms->deepin_split_window) {
+    } else if (e->type == atoms->yoyo_split_window) {
         workspace()->slotSetClientSplit(this, e->data.data32[0], e->data.data32[1]);
     }
 }
@@ -757,7 +757,7 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
             checkApplicationMenuServiceName();
         else if (e->atom == atoms->kde_net_wm_appmenu_object_path)
             checkApplicationMenuObjectPath();
-        else if (e->atom == atoms->deepin_forhibit_move)
+        else if (e->atom == atoms->yoyo_forhibit_move)
             updateWindowForhibitMove();
         break;
     }
@@ -1018,7 +1018,7 @@ bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int 
 {
     //Click on the parent window of the modal dialog box to play the prompt sound.
     if (!transients().isEmpty() && transients().last()->isModal()) {
-        QDBusInterface soundEffect("com.deepin.daemon.SoundEffect", "/com/deepin/daemon/SoundEffect");
+        QDBusInterface soundEffect("com.yoyo.daemon.SoundEffect", "/com/yoyo/daemon/SoundEffect");
         soundEffect.asyncCall("PlaySystemSound", "dialog-error");
     }
 

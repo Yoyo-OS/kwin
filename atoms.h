@@ -71,10 +71,10 @@ public:
     Xcb::Atom wl_surface_id;
     Xcb::Atom kde_net_wm_appmenu_service_name;
     Xcb::Atom kde_net_wm_appmenu_object_path;
-    Xcb::Atom deepin_move_update;
-    Xcb::Atom deepin_forhibit_move;
-    Xcb::Atom deepin_split_window;
-    Xcb::Atom deepin_lock_screen;
+    Xcb::Atom yoyo_move_update;
+    Xcb::Atom yoyo_forhibit_move;
+    Xcb::Atom yoyo_split_window;
+    Xcb::Atom yoyo_lock_screen;
     Xcb::Atom clipboard;
     Xcb::Atom timestamp;
     Xcb::Atom targets;

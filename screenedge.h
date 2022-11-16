@@ -68,7 +68,7 @@ public:
     bool activatesForTouchGesture() const;
 
     /**
-     * DEEPIN: disable screen edges for good
+     * YOYO: disable screen edges for good
      **/
     void setDisableScreenEdges(bool val);
 
@@ -374,7 +374,7 @@ private:
     void deleteEdgeForClient(AbstractClient *client);
     bool m_desktopSwitching;
     bool m_desktopSwitchingMovingClients;
-    bool m_deepinDisableScreenEdges; // disable left, right, top, bottom Edge windows
+    bool m_yoyoDisableScreenEdges; // disable left, right, top, bottom Edge windows
     QSize m_cursorPushBackDistance;
     int m_timeThreshold;
     int m_reactivateThreshold;

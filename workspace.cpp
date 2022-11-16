@@ -62,9 +62,9 @@
 
 #define  ENABLE_DRAG_CONGTENT 1
 
-#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
-#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
-#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+#define DBUS_YOYO_WM_SERVICE "com.yoyo.wm"
+#define DBUS_YOYO_WM_OBJ "/com/yoyo/wm"
+#define DBUS_YOYO_WM_INTF "com.yoyo.wm"
 
 namespace KWin
 {
@@ -702,7 +702,7 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
         focusToNull();
         foreach (auto u,unmanaged) {
             if (u->isKeepAbove() && !u->fetchWindowForLockScreen()) {
-                if (u->resourceName() != "deepin-watermark") {
+                if (u->resourceName() != "yoyo-watermark") {
                     xcb_unmap_window(connection(),u->window());
                 }
             }
@@ -1442,7 +1442,7 @@ void Workspace::setShowingDesktop(bool showing)
         workspace()->searchSplitScreenClient(desktop);
     }
     if (!waylandServer()) {
-        QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+        QDBusInterface wm(DBUS_YOYO_WM_SERVICE, DBUS_YOYO_WM_OBJ, DBUS_YOYO_WM_INTF);
         wm.asyncCall("SetShowDesktop", showing);
     }
 }
@@ -1465,13 +1465,13 @@ void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)
                 if (list.contains(c)) {
                     if (c->isMinimized()) {
                         // 记录窗口的最小化状态
-                        c->setProperty("__deepin_kwin_minimized", true);
+                        c->setProperty("__yoyo_kwin_minimized", true);
                         // 恢复最小化以便预览窗口
                         c->unminimize(true);
                     }
                 } else {
-                    if (c->property("__deepin_kwin_minimized").toBool()) {
-                        c->setProperty("__deepin_kwin_minimized", QVariant());
+                    if (c->property("__yoyo_kwin_minimized").toBool()) {
+                        c->setProperty("__yoyo_kwin_minimized", QVariant());
                         // 恢复窗口被预览之前的状态
                         c->minimize(true);
                     }
@@ -2086,10 +2086,10 @@ void Workspace::screensChanged()
 void Workspace::changeBlurStatus(bool state)
 {
     if (effects) {
-        if (state && static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
-            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
-        } else if (!state && !static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
-            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+        if (state && static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.yoyo.blur")) {
+            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.yoyo.blur");
+        } else if (!state && !static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.yoyo.blur")) {
+            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.yoyo.blur");
         }
     }
 }
@@ -2268,7 +2268,7 @@ void Workspace::setWinSplitState(AbstractClient *client, bool isSplit)
 
     client->setSplitPorperty(isSplit);
     if (Client *c = dynamic_cast<Client*>(client)) {
-        xcb_intern_atom_cookie_t cookie_st = xcb_intern_atom( connection(), 0, strlen( "_DEEPIN_NET_SUPPORTED"), "_DEEPIN_NET_SUPPORTED");
+        xcb_intern_atom_cookie_t cookie_st = xcb_intern_atom( connection(), 0, strlen( "_YOYO_NET_SUPPORTED"), "_YOYO_NET_SUPPORTED");
         xcb_intern_atom_reply_t *reply_st = xcb_intern_atom_reply( connection(), cookie_st, NULL);
         if (reply_st) {
             xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, client->windowId(), (*reply_st).atom,

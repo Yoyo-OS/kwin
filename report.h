@@ -11,7 +11,7 @@
 //函数指针
 typedef int (*INIT_FUNC)(std::string, bool);
 typedef int (*WRITE_FUNC)(std::string);
-#define LIB_CACULATE_PATH "/usr/lib/libdeepin-event-log.so"
+#define LIB_CACULATE_PATH "/usr/lib/libyoyo-event-log.so"
 
 namespace KWin {
 namespace Report {

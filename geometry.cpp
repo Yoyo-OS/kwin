@@ -214,7 +214,7 @@ void Workspace::updateClientArea(bool force)
                 if (!geometry.intersects(c->geometry())) {
                     return margins;
                 }
-                struct KWayland::Server::deepinKwinStrut strutArea = c->strut();
+                struct KWayland::Server::yoyoKwinStrut strutArea = c->strut();
                 if(strutArea.left != 0 || strutArea.right != 0 || strutArea.top != 0 || strutArea.bottom != 0) {
                     if (strutArea.left != 0) {
                         margins.setLeft(strutArea.left);
@@ -3404,7 +3404,7 @@ void AbstractClient::handleMoveResize(int x, int y, int x_root, int y_root)
                     bTitleRect.setHeight(40);
 
                     // take care of old CSD windows
-                    // this contains old dde windows and deepin-terminal which have
+                    // this contains old dde windows and yoyo-terminal which have
                     // _GTK_FRAME_EXTENT attributes
                     // 60 is a modest default value for frame height
                     if (auto cli = qobject_cast<Client*>(this)) {

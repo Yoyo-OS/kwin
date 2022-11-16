@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ~ 2022 Deepin Technology Co., Ltd.
+ * Copyright (C) 2022 ~ 2022 Yoyo Technology Co., Ltd.
  *
  * Author:     zhangyu <zhangyud@uniontech.com>
  *
@@ -157,7 +157,7 @@ private:
     QString          m_previewFile = "";
     int              m_previewScreen = -1;
     QMutex           m_bgmutex;
-    KConfig          *m_deepinWMConfig = nullptr;
+    KConfig          *m_yoyoWMConfig = nullptr;
 
     QHash<QString, QPair<QSize, QPixmap>> m_wpCachedPixmaps;
     QHash<QString, QPair<QSize, QPixmap>> m_bgCachedPixmaps;

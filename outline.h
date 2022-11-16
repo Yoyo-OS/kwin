@@ -15,9 +15,9 @@
 #include <qdbusinterface.h>
 #include "utils.h"
 
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusService "com.yoyo.daemon.Appearance"
+#define KWinDBusPath    "/com/yoyo/daemon/Appearance"
+#define KWinDBusInterface "com.yoyo.daemon.Appearance"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 class QQmlContext;

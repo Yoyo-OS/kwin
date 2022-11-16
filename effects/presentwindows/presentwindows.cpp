@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwineffectsex.h"
 #include "report.h" //埋点
 
-#define WATERMARK_CLASS_NAME "deepin-watermark"
+#define WATERMARK_CLASS_NAME "yoyo-watermark"
 
 namespace KWin
 {

@@ -829,7 +829,7 @@ public:
     }
     bool keyEvent(QKeyEvent *event) override {
         if (event->type() == QEvent::KeyPress) {
-            if (qApp->arguments().contains("/etc/deepin/greeters.d/lightdm-deepin-greeter") && ismodifierShortcuts(event)) {
+            if (qApp->arguments().contains("/etc/yoyo/greeters.d/lightdm-yoyo-greeter") && ismodifierShortcuts(event)) {
                 return false;
             }
             if (workspace() && workspace()->isKwinDebug()) {
@@ -1016,7 +1016,7 @@ class InternalWindowEventFilter : public InputEventFilter {
                     continue;
                 }
                 auto s = waylandServer()->findClient(w);
-                if (nullptr != s && s->caption() == "deepin-splitoutline") {
+                if (nullptr != s && s->caption() == "yoyo-splitoutline") {
                     continue;
                 }
                 found = w;

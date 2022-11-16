@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2019 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 ~ 2019 Yoyo Technology Co., Ltd.
 // Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 ~ 2019 Deepin Technology Co., Ltd.
+ * Copyright (C) 2019 ~ 2019 Yoyo Technology Co., Ltd.
  *
  * Author:     zhangyu <zhangyu@uniontech.com>
  *
@@ -23,7 +23,7 @@
 #include <abstract_client.h>
 #include <kwinglutils.h>
 #include <effects.h>
-#define WATERMARK_CLASS_NAME "deepin-watermark deepin-watermark"
+#define WATERMARK_CLASS_NAME "yoyo-watermark yoyo-watermark"
 namespace SplitConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutExpo;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 600;

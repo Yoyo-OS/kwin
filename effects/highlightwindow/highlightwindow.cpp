@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "highlightwindow.h"
-#define WATERMARK_CLASS_NAME "deepin-watermark deepin-watermark"
+#define WATERMARK_CLASS_NAME "yoyo-watermark yoyo-watermark"
 namespace KWin
 {
 

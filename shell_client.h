@@ -28,7 +28,7 @@ class PlasmaShellSurfaceInterface;
 class QtExtendedSurfaceInterface;
 class XdgDecorationInterface;
 class DDEShellSurfaceInterface;
-struct deepinKwinStrut;
+struct yoyoKwinStrut;
 class StrutInterface;
 }
 }
@@ -118,8 +118,8 @@ public:
     using AbstractClient::setGeometry;
     void setGeometry(int x, int y, int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
     bool hasStrut() const override;
-    void setStrut(KWayland::Server::deepinKwinStrut& strutArea){m_strutArea = strutArea;}
-    KWayland::Server::deepinKwinStrut& strut(){return m_strutArea;}
+    void setStrut(KWayland::Server::yoyoKwinStrut& strutArea){m_strutArea = strutArea;}
+    KWayland::Server::yoyoKwinStrut& strut(){return m_strutArea;}
     QSize calculateClientSize(const QSize& wsize);
 
     void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo) override;
@@ -350,7 +350,7 @@ private:
     int m_windowGravity = FRAME_TOP;
     qreal m_opacity = 1.0;
 
-    KWayland::Server::deepinKwinStrut m_strutArea;
+    KWayland::Server::yoyoKwinStrut m_strutArea;
     class RequestGeometryBlocker {
     public:
         RequestGeometryBlocker(ShellClient *client)
